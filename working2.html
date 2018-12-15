@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+
+<h2>Tree View</h2>
+<input type="text" id="mtext"/>
+<button onclick="myfunction()">click</button>
+
+<ul id="myUL">
+</ul>
+
+<script>
+function myfunction(){
+  var path = document.getElementById("mtext").value.split("/")
+  var Plength = path.length;
+  if(Plength!=0)
+  {
+	if(Plength==1)
+    {
+		CreateBaseFol(path[0])
+	}
+	else
+    {
+    	creatChildOf(path.slice(0,Plength-1), path[Plength-1]);
+	}
+  }
+}
+
+function creatChildOf(path,name){
+	var rootID = document.getElementById(path);
+	if(rootID == null){
+		var PPlength = path.length
+		if(PPlength==1)
+		{
+			CreateBaseFol(path[0])
+			var parent = document.createElement("UL");
+			parent.id = path+","+name;
+			var textnode = document.createTextNode(name);
+			parent.appendChild(textnode);
+			document.getElementById(path).appendChild(parent);
+		}
+		else
+		{
+			creatChildOf(path.slice(0,PPlength-1), path[PPlength-1]);
+			var parent = document.createElement("UL");
+			parent.id = path+","+name;
+			var textnode = document.createTextNode(name);
+			parent.appendChild(textnode);
+			document.getElementById(path).appendChild(parent);
+		}
+	}
+	else{
+		var parent = document.createElement("UL");
+		parent.id = path+","+name;
+		var textnode = document.createTextNode(name);
+		parent.appendChild(textnode);
+		document.getElementById(path).appendChild(parent);
+	}
+}
+
+function CreateBaseFol(pName){
+		var rootID = document.getElementById(pName);
+		if(rootID == null)
+        {
+			var parent = document.createElement("UL");
+            parent.id = pName;
+			var textnode = document.createTextNode(pName);
+			parent.appendChild(textnode);
+			document.getElementById("myUL").appendChild(parent);
+		}
+}
+var toggler = document.getElementsByClassName("box");
+var i;
+
+for (i = 0; i < toggler.length; i++) {
+  toggler[i].addEventListener("click", function() {
+    this.parentElement.querySelector(".nested").classList.toggle("active");
+    this.classList.toggle("check-box");
+  });
+}
+</script>
+
+</body>
+</html>
